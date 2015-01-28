@@ -1,0 +1,57 @@
+This repository backs my demo on Mutation Testing
+
+Here are the commands to execute on a "real" application:
+
+Configure the project to use PIT::
+[source,xml]
+.pom.xml
+----
+<plugin>
+    <groupId>org.pitest</groupId>
+    <artifactId>pitest-maven</artifactId>
+    <version>1.6.4</version>
+    <dependencies>
+        <!-- For JUnit 5 only -->
+        <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>0.12</version>
+        </dependency>
+        <!-- So we can choose the Descartes engine later -->
+        <dependency>
+            <groupId>eu.stamp-project</groupId>
+            <artifactId>descartes</artifactId>
+            <version>1.3.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</plugin>
+----
+Launch PIT without options::
+[source,bash]
+----
+mvn test-compile org.pitest:pitest-maven:mutationCoverage
+----
+On some project, it doesn't work out-of-the-box.
+Exclude classes that create issues::
+[source,bash]
+----
+mvn test-compile org.pitest:pitest-maven:mutationCoverage \
+  -DexcludedTestClasses=org.joda.money.TestBigMoney,org.joda.money.TestCurrencyUnit,org.joda.money.TestMoney
+----
+Depending on the project's size, it might take a (very) long time.
+Use history so that PIT only runs on changes::
+[source,bash]
+----
+mvn test-compile org.pitest:pitest-maven:mutationCoverage \
+  -DwithHistory \
+  -DexcludedTestClasses=org.joda.money.TestBigMoney,org.joda.money.TestCurrencyUnit,org.joda.money.TestMoney
+----
+Another way to speed up the run is to use another engine _e.g._ Descartes::
+[source,bash]
+----
+mvn test-compile org.pitest:pitest-maven:mutationCoverage \
+  -DmutationEngine=descartes \
+  -DexcludedTestClasses=org.joda.money.TestBigMoney,org.joda.money.TestCurrencyUnit,org.joda.money.TestMoney
+----
+

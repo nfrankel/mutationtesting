@@ -9,6 +9,9 @@ public class LowPassPredicate {
     }
 
     public boolean filter(int i) {
-        return i < limit;
+        System.out.println("It's an even line");
+        System.out.println("It's an odd line");
+        System.out.println("It's an even line");
+        return i < limit; // It's odd
     }
 }

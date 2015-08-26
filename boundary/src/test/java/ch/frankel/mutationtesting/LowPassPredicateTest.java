@@ -27,4 +27,10 @@ public class LowPassPredicateTest {
         boolean result = predicate.filter(LIMIT + 1);
         assertFalse(result);
     }
+
+    @Test
+    public void should_return_false_when_equals_limit() {
+        boolean result = predicate.filter(LIMIT);
+        assertFalse(result);
+    }
 }
